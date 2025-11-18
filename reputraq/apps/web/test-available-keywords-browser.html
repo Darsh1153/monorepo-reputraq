@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Available Keywords API</title>
+</head>
+<body>
+    <h1>Test Available Keywords API</h1>
+    <div id="result"></div>
+    
+    <script>
+        async function testAvailableKeywords() {
+            try {
+                console.log('🧪 Testing Available Keywords API from browser...');
+                
+                const mockUserId = 1;
+                const token = btoa(JSON.stringify({ userId: mockUserId }));
+                
+                const response = await fetch('/api/available-keywords', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+                
+                console.log('📊 Response status:', response.status);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('✅ Available keywords received:', data);
+                    
+                    document.getElementById('result').innerHTML = `
+                        <h2>Results:</h2>
+                        <p><strong>Total articles:</strong> ${data.totalArticles}</p>
+                        <p><strong>Unique keywords:</strong> ${data.uniqueKeywords.length}</p>
+                        <h3>Keywords with counts:</h3>
+                        <ul>
+                            ${data.keywordCounts.map(k => `<li>${k.keyword} (${k.count} articles)</li>`).join('')}
+                        </ul>
+                    `;
+                } else {
+                    const error = await response.json();
+                    console.error('❌ Error:', error);
+                    document.getElementById('result').innerHTML = `<p style="color: red;">Error: ${JSON.stringify(error)}</p>`;
+                }
+                
+            } catch (error) {
+                console.error('❌ Test failed:', error);
+                document.getElementById('result').innerHTML = `<p style="color: red;">Test failed: ${error.message}</p>`;
+            }
+        }
+        
+        // Run the test when page loads
+        testAvailableKeywords();
+    </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "company-monorepo",
+  "private": true,
+  "packageManager": "pnpm@10.21.0",
+  "workspaces": ["apps/*"],
+  "scripts": {
+    "dev": "pnpm -C apps/landing dev & pnpm -C apps/web dev",
+    "dev:landing": "pnpm -C apps/landing dev",
+    "dev:web": "pnpm -C apps/web dev",
+    "build": "pnpm -C apps/landing build && pnpm -C apps/web build"
+  }
+}

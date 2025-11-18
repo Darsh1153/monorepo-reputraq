@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test America Keyword Matching</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+            color: #0c5460;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            max-height: 400px;
+        }
+        .loading {
+            display: none;
+            color: #007bff;
+        }
+        .article-card {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        .article-title {
+            font-weight: bold;
+            color: #333;
+        }
+        .article-keyword {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .match-reason {
+            color: #28a745;
+            font-size: 0.8em;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🇺🇸 America Keyword Matching Test</h1>
+        <p>This test verifies that articles are correctly filtered when "America" is selected as the brand keyword.</p>
+        
+        <div class="test-section info">
+            <h3>📋 Test Instructions</h3>
+            <ol>
+                <li>Make sure you're logged in to the application</li>
+                <li>Navigate to the competitor-vs-news page</li>
+                <li>Select "America" as the Brand Keyword</li>
+                <li>Select any competitor keyword</li>
+                <li>Click "Compare Sentiment"</li>
+                <li>Verify that only America-related articles appear</li>
+            </ol>
+        </div>
+
+        <div class="test-section">
+            <h3>🔧 API Tests</h3>
+            <button onclick="testAmericaComparison()">Test America Comparison</button>
+            <button onclick="testAllArticles()">Show All User Articles</button>
+            <button onclick="testKeywordMatching()">Test Keyword Matching Logic</button>
+            <div class="loading" id="loading">Loading...</div>
+            <pre id="results"></pre>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 Expected Results</h3>
+            <div class="success">
+                <strong>✅ Correct Behavior:</strong><br/>
+                • Only articles with keyword "America" should appear<br/>
+                • Articles about American topics (politics, economy, culture)<br/>
+                • No unrelated articles (sports, entertainment, etc.)<br/>
+                • Clear matching reasons shown in debug logs
+            </div>
+            <div class="error">
+                <strong>❌ Previous Issue:</strong><br/>
+                • Articles about motorcycle racing, NFL, Chilean football<br/>
+                • These are NOT related to "America" keyword<br/>
+                • False positive matches due to loose keyword matching
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔍 Debug Information</h3>
+            <div id="debug-info">
+                <p>Click "Test America Comparison" to see detailed debug information about article matching.</p>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>✅ Verification Checklist</h3>
+            <ul>
+                <li>☐ "America" appears in Brand Keyword dropdown</li>
+                <li>☐ Only America-related articles appear in results</li>
+                <li>☐ No false positive matches (unrelated articles)</li>
+                <li>☐ Debug logs show correct matching reasons</li>
+                <li>☐ Sentiment analysis works with filtered articles</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').textContent = '';
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        function showResults(data) {
+            hideLoading();
+            document.getElementById('results').textContent = JSON.stringify(data, null, 2);
+        }
+
+        function showError(error) {
+            hideLoading();
+            document.getElementById('results').textContent = 'Error: ' + error.message;
+        }
+
+        async function testAmericaComparison() {
+            showLoading();
+            try {
+                const user = localStorage.getItem('user');
+                if (!user) {
+                    throw new Error('No user found in localStorage. Please log in first.');
+                }
+
+                const userData = JSON.parse(user);
+                const token = btoa(JSON.stringify({ userId: userData.id }));
+
+                const response = await fetch('/api/competitor-vs-news/compare', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ 
+                        brandKeyword: 'America',
+                        competitorKeyword: 'China' // Using China as competitor for testing
+                    }),
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Show detailed analysis
+                    const analysis = {
+                        status: response.status,
+                        brandKeyword: data.brandKeyword,
+                        competitorKeyword: data.competitorKeyword,
+                        brandArticlesCount: data.brandSentiment.totalArticles,
+                        competitorArticlesCount: data.competitorSentiment.totalArticles,
+                        brandArticles: data.brandArticles.slice(0, 5).map(article => ({
+                            title: article.title,
+                            keyword: article.keyword,
+                            sentimentScore: article.sentimentScore,
+                            sentimentLabel: article.sentimentLabel,
+                            publishedAt: article.publishedAt
+                        })),
+                        competitorArticles: data.competitorArticles.slice(0, 5).map(article => ({
+                            title: article.title,
+                            keyword: article.keyword,
+                            sentimentScore: article.sentimentScore,
+                            sentimentLabel: article.sentimentLabel,
+                            publishedAt: article.publishedAt
+                        })),
+                        comparison: data.comparison,
+                        message: 'America comparison test completed'
+                    };
+                    
+                    showResults(analysis);
+                    
+                    // Update debug info
+                    updateDebugInfo(data);
+                } else {
+                    showResults({
+                        status: response.status,
+                        error: data.error || 'Unknown error',
+                        message: 'Comparison failed'
+                    });
+                }
+            } catch (error) {
+                showError(error);
+            }
+        }
+
+        async function testAllArticles() {
+            showLoading();
+            try {
+                const user = localStorage.getItem('user');
+                if (!user) {
+                    throw new Error('No user found in localStorage. Please log in first.');
+                }
+
+                const userData = JSON.parse(user);
+                const token = btoa(JSON.stringify({ userId: userData.id }));
+
+                const response = await fetch('/api/available-keywords', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                const data = await response.json();
+                showResults({
+                    status: response.status,
+                    totalArticles: data.totalArticles,
+                    uniqueKeywords: data.uniqueKeywords,
+                    keywordCounts: data.keywordCounts,
+                    sampleArticles: data.sampleArticles,
+                    message: 'All articles test completed'
+                });
+            } catch (error) {
+                showError(error);
+            }
+        }
+
+        async function testKeywordMatching() {
+            showLoading();
+            try {
+                const user = localStorage.getItem('user');
+                if (!user) {
+                    throw new Error('No user found in localStorage. Please log in first.');
+                }
+
+                const userData = JSON.parse(user);
+                const token = btoa(JSON.stringify({ userId: userData.id }));
+
+                // Test different keyword variations
+                const testKeywords = ['America', 'america', 'AMERICA', 'American', 'USA'];
+                const results = {};
+
+                for (const keyword of testKeywords) {
+                    try {
+                        const response = await fetch('/api/competitor-vs-news/compare', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`,
+                            },
+                            body: JSON.stringify({ 
+                                brandKeyword: keyword,
+                                competitorKeyword: 'China'
+                            }),
+                        });
+
+                        const data = await response.json();
+                        results[keyword] = {
+                            status: response.status,
+                            articleCount: data.brandSentiment?.totalArticles || 0,
+                            success: response.ok
+                        };
+                    } catch (error) {
+                        results[keyword] = {
+                            error: error.message,
+                            success: false
+                        };
+                    }
+                }
+
+                showResults({
+                    keywordTests: results,
+                    message: 'Keyword matching variations test completed'
+                });
+            } catch (error) {
+                showError(error);
+            }
+        }
+
+        function updateDebugInfo(data) {
+            const debugDiv = document.getElementById('debug-info');
+            debugDiv.innerHTML = `
+                <h4>🔍 Debug Analysis:</h4>
+                <p><strong>Brand Articles Found:</strong> ${data.brandSentiment.totalArticles}</p>
+                <p><strong>Competitor Articles Found:</strong> ${data.competitorSentiment.totalArticles}</p>
+                <p><strong>Overall Winner:</strong> ${data.comparison.overallWinner}</p>
+                <p><strong>Confidence:</strong> ${data.comparison.confidence}</p>
+                
+                <h4>📰 Sample Brand Articles:</h4>
+                ${data.brandArticles.slice(0, 3).map(article => `
+                    <div class="article-card">
+                        <div class="article-title">${article.title}</div>
+                        <div class="article-keyword">Keyword: ${article.keyword}</div>
+                        <div class="match-reason">Sentiment: ${article.sentimentLabel} (${article.sentimentScore})</div>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        // Auto-check if user is logged in
+        window.onload = function() {
+            const user = localStorage.getItem('user');
+            if (!user) {
+                document.getElementById('results').textContent = 'Please log in to the application first, then refresh this page.';
+            }
+        };
+    </script>
+</body>
+</html>

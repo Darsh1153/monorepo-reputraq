@@ -1,0 +1,1041 @@
+.graphsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.graphCard {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8));
+  padding: var(--space-6);
+  border-radius: var(--radius-2xl);
+  box-shadow: 0 8px 32px rgba(0, 147, 221, 0.1);
+  border: 1px solid rgba(0, 147, 221, 0.1);
+  transition: all var(--transition-base);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0, 147, 221, 0.15);
+    border-color: rgba(0, 147, 221, 0.2);
+  }
+}
+
+.graphHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.graphTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+// Pie Chart Styles
+.pieChart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pieChartContainer {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.pieChartSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.pieSvg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.pieSlice {
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    stroke-width: 25;
+  }
+}
+
+.pieCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.pieCenterNumber {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1;
+}
+
+.pieCenterLabel {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.pieLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.legendColor {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+// Line Chart Styles
+.lineChart {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.lineChartContainer {
+  width: 100%;
+  height: 200px;
+}
+
+.lineSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.linePath {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: all 0.3s ease;
+}
+
+.lineArea {
+  transition: all 0.3s ease;
+}
+
+.dataPoint {
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    r: 6;
+    fill: #4f46e5;
+  }
+}
+
+.lineChartLabels {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+
+.lineLabel {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-align: center;
+}
+
+// Bar Chart Styles
+.barChart {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.barChartContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 200px;
+  padding: 0 1rem;
+  gap: 0.5rem;
+}
+
+.barGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  gap: 0.5rem;
+}
+
+.barValue {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.bar {
+  width: 100%;
+  min-height: 4px;
+  border-radius: 4px 4px 0 0;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+    transform: scaleY(1.05);
+  }
+}
+
+.barLabel {
+  font-size: 0.7rem;
+  color: #6b7280;
+  text-align: center;
+  word-break: break-word;
+  line-height: 1.2;
+}
+
+// Radar Chart Styles
+.radarChart {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.radarChartContainer {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.radarSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.radarArea {
+  transition: all 0.3s ease;
+}
+
+.radarPoint {
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    r: 6;
+    fill: #4f46e5;
+  }
+}
+
+.radarLabels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.radarLabel {
+  font-size: 0.75rem;
+  color: #6b7280;
+  background: #f9fafb;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #e5e7eb;
+}
+
+// Donut Chart Styles
+.donutChart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.donutChartContainer {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.donutSvg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.donutSlice {
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    stroke-width: 25;
+  }
+}
+
+.donutCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.donutCenterNumber {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1;
+}
+
+.donutCenterLabel {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.donutLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+// Horizontal Bar Chart Styles
+.horizontalBarChart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.horizontalBarGroup {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.horizontalBarLabel {
+  font-size: 0.875rem;
+  color: #6b7280;
+  min-width: 120px;
+  text-align: right;
+}
+
+.horizontalBarContainer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 24px;
+}
+
+.horizontalBar {
+  height: 100%;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+    transform: scaleX(1.02);
+  }
+}
+
+.horizontalBarValue {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #1f2937;
+  min-width: 30px;
+  text-align: right;
+}
+
+// Tone Analysis Chart Styles
+.toneAnalysisChart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.toneAnalysisContainer {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.toneSvg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.toneSlice {
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    stroke-width: 25;
+  }
+}
+
+.toneCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.toneCenterNumber {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1;
+}
+
+.toneCenterLabel {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.toneLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+// Sentiment Distribution Chart Styles
+.sentimentDistributionChart {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sentimentDistributionContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 200px;
+  padding: 0 1rem;
+  gap: 0.5rem;
+}
+
+.sentimentBarGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  gap: 0.5rem;
+}
+
+.sentimentBarValue {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.sentimentBar {
+  width: 100%;
+  min-height: 4px;
+  border-radius: 4px 4px 0 0;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+    transform: scaleY(1.05);
+  }
+}
+
+.sentimentBarLabel {
+  font-size: 0.7rem;
+  color: #6b7280;
+  text-align: center;
+  word-break: break-word;
+  line-height: 1.2;
+}
+
+.sentimentBarKeyword {
+  font-size: 0.6rem;
+  color: #9ca3af;
+  text-align: center;
+  font-weight: 500;
+  margin-top: 0.25rem;
+}
+
+.sentimentBarCategory {
+  font-size: 0.55rem;
+  color: #d1d5db;
+  text-align: center;
+  font-style: italic;
+  margin-top: 0.1rem;
+}
+
+.sentimentLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.sentimentInsights {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.sentimentInsights h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.875rem;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.insightItem {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+
+// Mood Spectrum Chart Styles
+.moodSpectrumChart {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.moodSpectrumContainer {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.moodSpectrumSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.moodLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  fill: #6b7280;
+}
+
+.moodSpectrumPoint {
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    r: 16;
+    opacity: 0.8;
+  }
+}
+
+.moodSpectrumValue {
+  font-size: 0.7rem;
+  font-weight: 600;
+  fill: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.moodSpectrumLabels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.moodSpectrumLabel {
+  font-size: 0.75rem;
+  color: #6b7280;
+  background: #f9fafb;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 0.5rem;
+}
+
+.moodSpectrumKeywordName {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+}
+
+.moodSpectrumDetails {
+  font-size: 0.7rem;
+  color: #6b7280;
+  line-height: 1.3;
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .graphsContainer {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .graphCard {
+    padding: 1rem;
+  }
+
+  .pieChartContainer,
+  .donutChartContainer,
+  .toneAnalysisContainer {
+    width: 150px;
+    height: 150px;
+  }
+
+  .pieCenterNumber,
+  .donutCenterNumber,
+  .toneCenterNumber {
+    font-size: 1.5rem;
+  }
+
+  .radarChartContainer,
+  .moodSpectrumContainer {
+    height: 200px;
+  }
+
+  .barChartContainer,
+  .sentimentDistributionContainer {
+    height: 150px;
+  }
+
+  .lineChartContainer {
+    height: 150px;
+  }
+
+  .horizontalBarGroup {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .horizontalBarLabel {
+    min-width: auto;
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .graphsContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .graphCard {
+    padding: 0.75rem;
+  }
+
+  .graphTitle {
+    font-size: 1.1rem;
+  }
+
+  .pieChartContainer,
+  .donutChartContainer,
+  .toneAnalysisContainer {
+    width: 120px;
+    height: 120px;
+  }
+
+  .pieCenterNumber,
+  .donutCenterNumber,
+  .toneCenterNumber {
+    font-size: 1.25rem;
+  }
+
+  .radarChartContainer,
+  .brandImpactContainer {
+    height: 200px;
+  }
+}
+
+// Sentiment Analysis Card Styles
+.sentimentAnalysisCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sentimentAnalysisContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sentimentKeywordCard {
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: rgba(0, 147, 221, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 147, 221, 0.1);
+  }
+}
+
+.sentimentKeywordHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.sentimentKeywordName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.sentimentKeywordStats {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.sentimentStatLabel {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.sentimentBars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sentimentBarGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sentimentBarLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.sentimentBarValue {
+  margin-left: auto;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.sentimentBarContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 24px;
+  background: #f3f4f6;
+  border-radius: 12px;
+  padding: 0 0.5rem;
+  position: relative;
+}
+
+.sentimentBar {
+  height: 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  min-width: 2px;
+}
+
+.sentimentBarPercent {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7280;
+  min-width: 40px;
+  text-align: right;
+}
+
+.positiveIcon {
+  color: #10b981;
+}
+
+.negativeIcon {
+  color: #ef4444;
+}
+
+.neutralIcon {
+  color: #6b7280;
+}
+
+.noDataMessage {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+// Sentiment Keywords Chart Styles
+.sentimentKeywordsChart {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sentimentKeywordsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sentimentKeywordBarGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sentimentKeywordBarLabel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.keywordName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.keywordStats {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.sentimentKeywordBarContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sentimentStackedBars {
+  flex: 1;
+  display: flex;
+  height: 24px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f3f4f6;
+}
+
+.sentimentStackedBar {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  
+  &:hover {
+    opacity: 0.8;
+    transform: scaleY(1.1);
+  }
+}
+
+.sentimentScoreBar {
+  width: 8px;
+  height: 150px;
+  background: #f3f4f6;
+  border-radius: 4px;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+}
+
+.sentimentScoreBarFill {
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+// Voice of Share Chart Styles
+.voiceOfShareChart {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.voiceOfShareContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.voiceOfShareSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.voiceOfShareSectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.voiceOfShareBarChart {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.voiceOfShareBarGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.voiceOfShareBarLabel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.voiceOfShareKeywordName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.voiceOfShareValue {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #3b82f6;
+}
+
+.voiceOfShareBarContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+.voiceOfShareBar {
+  flex: 1;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0 0.75rem;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  
+  &:hover {
+    opacity: 0.9;
+    transform: scaleX(1.02);
+  }
+}
+
+.voiceOfShareBarText {
+  font-size: 0.75rem;
+  color: #6b7280;
+  white-space: nowrap;
+  margin-left: 0.5rem;
+}
+
+.voiceOfShareDonutChart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.voiceOfShareDonutContainer {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.voiceOfShareDonutSvg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.voiceOfShareDonutSlice {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  
+  &:hover {
+    stroke-width: 25;
+    opacity: 0.9;
+  }
+}
+
+.voiceOfShareDonutCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.voiceOfShareDonutCenterNumber {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1;
+}
+
+.voiceOfShareDonutCenterLabel {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.voiceOfShareDonutLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+

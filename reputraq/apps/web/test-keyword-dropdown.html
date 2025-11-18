@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Keyword Dropdown Fix</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+            color: #0c5460;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .loading {
+            display: none;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔍 Keyword Dropdown Test</h1>
+        <p>This test verifies that "Elon musk" keyword appears in the competitor-vs-news dropdown.</p>
+        
+        <div class="test-section info">
+            <h3>📋 Test Instructions</h3>
+            <ol>
+                <li>Make sure you're logged in to the application</li>
+                <li>Navigate to the competitor-vs-news page</li>
+                <li>Check if "Elon musk" appears in the Brand Keyword dropdown</li>
+                <li>If it appears, select it and try a comparison</li>
+            </ol>
+        </div>
+
+        <div class="test-section">
+            <h3>🔧 API Tests</h3>
+            <button onclick="testKeywordsAPI()">Test Keywords API</button>
+            <button onclick="testAvailableKeywordsAPI()">Test Available Keywords API</button>
+            <button onclick="testCompetitorKeywordsAPI()">Test Competitor Keywords API</button>
+            <div class="loading" id="loading">Loading...</div>
+            <pre id="results"></pre>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 Expected Results</h3>
+            <div class="info">
+                <strong>Before Fix:</strong> "Elon musk" would only appear if there were articles collected for it<br/>
+                <strong>After Fix:</strong> "Elon musk" should appear in the dropdown even if no articles are collected yet<br/>
+                <strong>Display:</strong> "Elon musk (no articles yet)" or "Elon musk (X articles)"
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>✅ Verification Steps</h3>
+            <ol>
+                <li>Check that "Elon musk" appears in the Brand Keyword dropdown</li>
+                <li>Verify it shows "(no articles yet)" if no articles are collected</li>
+                <li>Test that you can select it and perform a comparison</li>
+                <li>Ensure sentiment analysis works even with 0 articles</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').textContent = '';
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        function showResults(data) {
+            hideLoading();
+            document.getElementById('results').textContent = JSON.stringify(data, null, 2);
+        }
+
+        function showError(error) {
+            hideLoading();
+            document.getElementById('results').textContent = 'Error: ' + error.message;
+        }
+
+        async function testKeywordsAPI() {
+            showLoading();
+            try {
+                const user = localStorage.getItem('user');
+                if (!user) {
+                    throw new Error('No user found in localStorage. Please log in first.');
+                }
+
+                const userData = JSON.parse(user);
+                const token = btoa(JSON.stringify({ userId: userData.id }));
+
+                const response = await fetch('/api/keywords', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                const data = await response.json();
+                showResults({
+                    status: response.status,
+                    data: data,
+                    message: 'Keywords API test completed'
+                });
+            } catch (error) {
+                showError(error);
+            }
+        }
+
+        async function testAvailableKeywordsAPI() {
+            showLoading();
+            try {
+                const user = localStorage.getItem('user');
+                if (!user) {
+                    throw new Error('No user found in localStorage. Please log in first.');
+                }
+
+                const userData = JSON.parse(user);
+                const token = btoa(JSON.stringify({ userId: userData.id }));
+
+                const response = await fetch('/api/available-keywords', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                const data = await response.json();
+                showResults({
+                    status: response.status,
+                    data: data,
+                    message: 'Available Keywords API test completed'
+                });
+            } catch (error) {
+                showError(error);
+            }
+        }
+
+        async function testCompetitorKeywordsAPI() {
+            showLoading();
+            try {
+                const user = localStorage.getItem('user');
+                if (!user) {
+                    throw new Error('No user found in localStorage. Please log in first.');
+                }
+
+                const userData = JSON.parse(user);
+                const token = btoa(JSON.stringify({ userId: userData.id }));
+
+                const response = await fetch('/api/competitor-keywords', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                const data = await response.json();
+                showResults({
+                    status: response.status,
+                    data: data,
+                    message: 'Competitor Keywords API test completed'
+                });
+            } catch (error) {
+                showError(error);
+            }
+        }
+
+        // Auto-check if user is logged in
+        window.onload = function() {
+            const user = localStorage.getItem('user');
+            if (!user) {
+                document.getElementById('results').textContent = 'Please log in to the application first, then refresh this page.';
+            }
+        };
+    </script>
+</body>
+</html>
