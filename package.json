@@ -2,7 +2,6 @@
   "name": "company-monorepo",
   "private": true,
   "packageManager": "pnpm@10.21.0",
-  "workspaces": ["apps/*", "reputraq/apps/*"],
   "scripts": {
     "dev": "pnpm -C reputraq/apps/landing dev & pnpm -C reputraq/apps/web dev",
     "dev:landing": "pnpm -C reputraq/apps/landing dev",
