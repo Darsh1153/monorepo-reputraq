@@ -4,9 +4,6 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import styles from './page.module.scss';
 
-// Force dynamic rendering
-export const dynamic = 'force-dynamic';
-
 interface UserStatus {
   id: number;
   name: string;

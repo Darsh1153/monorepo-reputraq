@@ -1,0 +1,7 @@
+node_modules/.pnpm
+node_modules/@swc
+node_modules/@next/swc
+node_modules/webpack
+*.log
+.DS_Store
+
